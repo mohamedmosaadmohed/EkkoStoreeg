@@ -63,34 +63,34 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
                 return Page();
             }
         }
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            var user = await _context.TbapplicationUser
-                .FirstOrDefaultAsync(x => x.Email == Input.EmailOrPhone || x.PhoneNumber == Input.EmailOrPhone);
-            if (user == null)
-            {
-                return RedirectToPage("./ResetPasswordConfirmation");
-            }
+		public async Task<IActionResult> OnPostAsync()
+		{
+			bool isRTL = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft;
+			if (!ModelState.IsValid)
+			{
+				return Page();
+			}
+			var user = await _context.TbapplicationUser
+				.FirstOrDefaultAsync(x => x.Email == Input.EmailOrPhone || x.PhoneNumber == Input.EmailOrPhone);
+			if (user == null)
+			{
+				ModelState.AddModelError(string.Empty,"Can Not Find the User");
+			}
 
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToPage("/Home/Index", new { area = "Customer" });
+			var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+			if (result.Succeeded)
+			{
+				await _signInManager.SignInAsync(user, isPersistent: false);
+				return RedirectToPage("/Home/Index", new { area = "Customer" });
 
-            }
+			}
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError(string.Empty,"Faild to Reset Password");
+			}
+			return Page();
+		}
 
-            return Page();
-        }
-
-    }
+	}
 }

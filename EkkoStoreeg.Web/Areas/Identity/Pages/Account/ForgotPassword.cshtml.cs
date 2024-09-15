@@ -47,66 +47,42 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
             public string EmailOrPhone { get; set; }
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                // Determine if the input is a phone number
-                var isPhone = Regex.IsMatch(Input.EmailOrPhone, @"^(?:\+20|0)?1[0125]\d{8}$");
-                ApplicationUser user;
-                if (isPhone)
-                {
-                    user = await _context.TbapplicationUser.FirstOrDefaultAsync(u => u.UserName == Input.EmailOrPhone);
-                    if (user == null)
-                    {
-                        ModelState.AddModelError(string.Empty, "Phone number does not exist.");
-                        return Page();
-                    }
-                    if (user == null || !user.PhoneNumberConfirmed)
-                    {
-                        ModelState.AddModelError(string.Empty, "The phone number does not exist or is not confirmed.");
-                        return Page();
-                    }
-                }
-                else
-                {
-                    user = await _context.TbapplicationUser.FirstOrDefaultAsync(u => u.Email == Input.EmailOrPhone);
-                    if (user == null)
-                    {
-                        ModelState.AddModelError(string.Empty, "Email does not exist.");
-                        return Page();
-                    }
-                    if (user == null || !user.EmailConfirmed)
-                    {
-                        ModelState.AddModelError(string.Empty, "The Email address does not exist or is not confirmed.");
-                        return Page();
-                    }
-                }
-                if (isPhone)
-                {
-                    var otp = _otpService.GenerateOTP();
-                    _otpService.StoreOTP(Input.EmailOrPhone, otp, TimeSpan.FromSeconds(45));
-                    var body = $"Rest code is {otp}";
-                    //await _smsSender.SendOTPAsync(Input.EmailOrPhone, body);
-                    var twilioResult = _smsSender.SendTwilioSMSAsync(Input.EmailOrPhone, body);
-                    if (twilioResult == null)
-                    {
-                        ModelState.AddModelError(string.Empty, "Unable to Send SMS to This Number");
-                        await _userManager.DeleteAsync(user);
-                        return Page();
-                    }
-                    return RedirectToPage("ConfirmOTPForgotPassword", new { emailOrPhone = Input.EmailOrPhone});
-                }
-                else
-                {
-                    var otp = _otpService.GenerateOTP();
-                    _otpService.StoreOTP(Input.EmailOrPhone, otp, TimeSpan.FromMinutes(1));
-                    await _emailSender.SendEmailAsync(Input.EmailOrPhone, "Rest code", $"<h1>{otp}</h1>");
-                    return RedirectToPage("ConfirmOTPForgotPassword", new { emailOrPhone = Input.EmailOrPhone});
-                }
-            }
-            return Page();
-        }
-    }
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (ModelState.IsValid)
+			{
+				var isPhone = Regex.IsMatch(Input.EmailOrPhone, @"^(?:\+20|0)?1[0125]\d{8}$");
+
+				// Find the user by email or phone
+				var user = await _userManager.FindByNameAsync(Input.EmailOrPhone);
+				if (user == null)
+				{
+					if (isPhone)
+					{
+						ModelState.AddModelError(string.Empty,"Phone number does not exist");
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty,"Email does not exist");
+					}
+					return Page();
+				}
+
+				// Generate password reset token
+				var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+				code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+				var callbackUrl = Url.Page(
+					"/Account/ResetPassword",
+					pageHandler: null,
+					values: new { area = "Identity", code, emailorphone = Input.EmailOrPhone },
+					protocol: Request.Scheme);
+
+				return Redirect(callbackUrl);
+			}
+
+			return Page();
+		}
+	}
 }
 
