@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+            <i class="zmdi zmdi-account"></i>
+        </a>
+    }
+    else
+    {
+        <a asp-area="Identity" asp-page="/Account/Login" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+            <i class="zmdi zmdi-account"></i>
+        </a>
+    }
+</ul>

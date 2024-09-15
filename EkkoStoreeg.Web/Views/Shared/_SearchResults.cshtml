@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Product>
+
+@if (Model.Any())
+{
+    <ul class="list-group searchbar">
+        @foreach (var product in Model)
+        {
+            <li class="list-group-item d-flex align-items-center">
+                <img src="~/@product.ProductImages?.First().ImagePath" alt="@product.Name" class="product-img">
+                <div class="product-info">
+                 <a href="/Customer/Home/Details/@product.Id" class="product-link">@product.Name</a>
+                </div>
+            </li>
+        }
+    </ul>
+}
+<style>
+    .searchbar {
+        width: 100%;
+        background-color: #f5f7fa;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+        .searchbar li {
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+            .searchbar li:last-child {
+                border-bottom: none;
+            }
+
+            .searchbar li:hover {
+                background-color: #e9ecef;
+            }
+
+    .product-img {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin: 0px 15px;
+    }
+
+    .product-info {
+        flex-grow: 1;
+        color: #333;
+        font-size: 16px;
+    }
+
+    .product-link {
+        text-decoration: none;
+        color: #333;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .no-products p {
+        margin: 0;
+        color: #333;
+        font-size: 16px;
+    }
+</style>
+

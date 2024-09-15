@@ -1,0 +1,412 @@
+﻿@model IEnumerable<Product>
+@{
+	int productCount = Model.Count();
+}
+<!-- Slider -->
+
+<partial name="_Toaster"/>
+<section class="section-slide">
+	<div class="wrap-slick1">
+		<div class="slick1">
+			<div class="item-slick1" style="background-image: url(/Customer/images/slide-02.jpg);">
+				<div class="container h-full">
+					<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+						<div class="layer-slick1 animated" data-appear="fadeInDown" data-delay="0">
+							<span class="ltext-101 cl2 respon2">
+								T-Shirts Collection 2024
+							</span>
+						</div>
+
+						<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
+							<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+								NEW SEASON
+							</h2>
+						</div>
+
+						<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								Shop Now
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="item-slick1" style="background-image: url(/Customer/images/slide-03.jpg);">
+				<div class="container h-full">
+					<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+						<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
+							<span class="ltext-101 cl2 respon2">
+								Men New-Season
+							</span>
+						</div>
+
+						<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
+							<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+								Jeans & Pants
+							</h2>
+						</div>
+
+						<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								Shop Now
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="item-slick1" style="background-image: url(/Customer/images/slide-06.jpg);">
+				<div class="container h-full">
+					<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+						<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
+							<span class="ltext-101 cl2 respon2">
+								Men Collection 2024
+							</span>
+						</div>
+
+						<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
+							<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+								Shorts
+							</h2>
+						</div>
+
+						<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								Shop Now
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Banner -->
+<div class="sec-banner bg0 p-t-80 p-b-50">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 col-xl-4 p-b-30 m-lr-auto">
+				<!-- Block1 -->
+				<div class="block1 wrap-pic-w">
+					<img src="~/Customer/images/PantsPants.png" alt="IMG-BANNER">
+					<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="Pants" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<div class="block1-txt-child1 flex-col-l">
+							<span class="block1-name ltext-102 trans-04 p-b-8">
+								Pants
+							</span>
+
+							<span class="block1-info stext-102 trans-04">
+								Spring 2024
+							</span>
+						</div>
+
+						<div class="block1-txt-child2 p-b-4 trans-05">
+							<div class="block1-link stext-101 cl0 trans-09">
+								Shop Now
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3 col-xl-4 p-b-30 m-lr-auto">
+				<!-- Block1 -->
+				<div class="block1 wrap-pic-w">
+					<img src="~/Customer/images/tshertd.png" alt="IMG-BANNER">
+
+					<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="T-Shirts" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<div class="block1-txt-child1 flex-col-l">
+							<span class="block1-name ltext-102 trans-04 p-b-8">
+								T-Shirt
+							</span>
+
+							<span class="block1-info stext-102 trans-04">
+								Spring 2024
+							</span>
+						</div>
+
+						<div class="block1-txt-child2 p-b-4 trans-05">
+							<div class="block1-link stext-101 cl0 trans-09">
+								Shop Now
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3 col-xl-4 p-b-30 m-lr-auto">
+				<!-- Block1 -->
+				<div class="block1 wrap-pic-w">
+					<img src="~/Customer/images/Jeans.png" alt="IMG-BANNER">
+
+					<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="Jeans" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<div class="block1-txt-child1 flex-col-l">
+							<span class="block1-name ltext-102 trans-04 p-b-8">
+								Jeans
+							</span>
+
+							<span class="block1-info stext-102 trans-04">
+								New Trend
+							</span>
+						</div>
+
+						<div class="block1-txt-child2 p-b-4 trans-05">
+							<div class="block1-link stext-101 cl0 trans-09">
+								Shop Now
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3 col-xl-4 p-b-30 m-lr-auto">
+				<!-- Block1 -->
+				<div class="block1 wrap-pic-w">
+					<img src="~/Customer/images/Shorts.png" alt="IMG-BANNER">
+
+					<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="Shorts" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<div class="block1-txt-child1 flex-col-l">
+							<span class="block1-name ltext-102 trans-04 p-b-8">
+								Shorts
+							</span>
+							<span class="block1-info stext-102 trans-04">
+								New Trend
+							</span>
+						</div>
+
+						<div class="block1-txt-child2 p-b-4 trans-05">
+							<div class="block1-link stext-101 cl0 trans-09">
+								Shop Now
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Product Slider -->
+<section class="bg0 p-t-23 p-b-140">
+	<div class="container">
+		<div class="p-b-10">
+			<h3 class="ltext-103 cl5">
+				Top Selling
+			</h3>
+		</div>
+		<hr />
+		<div class="wrap-slick1">
+			<div class="product-slider" data-product-count="@productCount">
+				@foreach (var item in Model)
+				{
+					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+						<a href="/Customer/Home/Details/@item.Id">
+						   <div class="block2">
+							<div class="block2-pic hov-img0 position-relative">
+								@if (item.Stock == 0)
+								{
+									<div class="badge outofstock">
+										<p>OUT OF STOCK</p>
+									</div>
+								}
+								else if (item.OfferPrice != 0)
+								{
+									<div class="badge offer">Offer</div>
+								}
+								<img src="~/@item.ProductImages.First().ImagePath" alt="IMG-PRODUCT" class="product-image">
+								<a href="/Customer/Home/Details/@item.Id" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+									View Details
+								</a>
+							</div>
+							<div class="block2-txt flex-w flex-t p-t-14">
+								<div class="block2-txt-child1 flex-col-l">
+									<a href="/Customer/Home/Details/@item.Id" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+										@item.Name
+									</a>
+									@if (item.OfferPrice != 0)
+									{
+										<span class="stext-105 cl3">
+											EGP <del>@item.Price</del>
+										</span>
+										<span class="stext-105 cl3">
+											EGP @item.OfferPrice
+										</span>
+									}
+									else
+									{
+										<span class="stext-105 cl3">
+											EGP @item.Price
+										</span>
+									}
+								</div>
+								<div class="block2-txt-child2 flex-r p-t-3">
+									<a href="/Customer/Home/AddWishList/@item.Id" class="pos-relative">
+										@await Component.InvokeAsync("Love", new { wishid = @item.Id })
+									</a>
+								</div>
+							</div>
+						</div>
+						</a>
+					</div>
+				}
+			</div>
+			<!-- Custom arrows -->
+			<div class="custom-slick-prev">&#9664;</div>
+			<div class="custom-slick-next">&#9654;</div>
+		</div>
+	</div>
+</section>
+
+
+
+<style>
+	/* Style for Slick Slider Arrows */
+	.custom-slick-prev, .custom-slick-next {
+		position: absolute;
+		top: 40%;
+		transform: translateY(-60%);
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		color: rgba(255,255,255,0.3);
+		font-size: 30px;
+		line-height: 1.3;
+		text-align: center;
+		opacity: 0.7;
+		transition: opacity 0.3s;
+		cursor: pointer;
+		z-index: 1000;
+	}
+
+		.custom-slick-prev:hover, .custom-slick-next:hover {
+			color: #7280e0;
+		}
+
+	.custom-slick-prev {
+		left: -30px;
+	}
+
+	.custom-slick-next {
+		right: -30px;
+	}
+
+	/* Style for Slick Slider Dots */
+	.slick-dots {
+		bottom: 10px;
+	}
+
+		.slick-dots li button:before {
+			font-size: 12px;
+			color: #333;
+			opacity: 0.75;
+			transition: opacity 0.3s;
+		}
+
+		.slick-dots li.slick-active button:before {
+			color: #000;
+			opacity: 1;
+		}
+
+	.block2 {
+		height: 100%;
+	}
+
+	.block2-pic {
+		position: relative;
+		display: inline-block;
+		width: 100%;
+		height: 320px;
+		overflow: hidden;
+	}
+
+	.product-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.badge {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		background-color: #f74877;
+		color: white;
+		padding: 5px 10px;
+		font-size: 12px;
+		font-weight: bold;
+		border-radius: 5px;
+	}
+
+	.outofstock {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: rgba(255, 255, 255, 0.7);
+		padding: 10px 20px;
+		z-index: 1;
+		display: block;
+		width: 100%;
+	}
+
+		.outofstock p {
+			color: #000;
+			font-size: 20px;
+			font-weight: bold;
+			text-align: center;
+		}
+
+	.badge.offer {
+		top: 10px;
+		right: 10px;
+		background-color: #f74877;
+		color: white;
+		padding: 5px 10px;
+		font-size: 12px;
+		font-weight: bold;
+		border-radius: 5px;
+	}
+</style>
+<script>
+	$(document).ready(function () {
+		var productCount = $('.product-slider').data('product-count');
+		var slidesToShow = 4; // Default value
+
+		if (productCount === 3) {
+			slidesToShow = 3;
+		} else if (productCount === 2) {
+			slidesToShow = 2;
+		} else if (productCount === 1) {
+			slidesToShow = 1;
+		}
+
+		$('.product-slider').slick({
+			slidesToShow: slidesToShow,
+			slidesToScroll: 1,
+			autoplay: true,
+			autoplaySpeed: 2000,
+			dots: false,
+			arrows: true,
+			prevArrow: $('.custom-slick-prev'),
+			nextArrow: $('.custom-slick-next'),
+			responsive: [
+				{
+					breakpoint: 1024,
+					settings: {
+						slidesToShow: Math.min(slidesToShow, 3),
+						slidesToScroll: 1
+					}
+				},
+				{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: Math.min(slidesToShow, 2),
+						slidesToScroll: 1
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+			]
+		});
+	});
+</script>
+

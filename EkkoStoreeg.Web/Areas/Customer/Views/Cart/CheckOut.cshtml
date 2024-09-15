@@ -1,0 +1,323 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ShoppingCartVM
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+<!-- breadcrumb -->
+<section class="txt-center p-lr-15 p-t-80">
+    <h2 class="ltext-105 cl0 txt-center" style="color:#333">
+        CheckOut
+    </h2>
+</section>
+
+
+<!-- Shoping Cart -->
+<form class="bg0 p-t-75 p-b-85" method="post">
+	<div class="container">
+		<div class="row">
+            <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstname">Name</label>
+                        <input type="text" class="form-control custom-input" id="name" asp-for="OrderHeader.Name" />
+                        <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="phonenumber">Phone Number</label>
+                        @if (user.PhoneNumberConfirmed)
+                        {
+                            <input type="tel" class="form-control custom-input" disabled id="phonenumber" asp-for="OrderHeader.PhoneNumber" />
+                            <input type="hidden" id="phonenumber" asp-for="OrderHeader.PhoneNumber"/>
+                        }
+                        else
+                        {
+                            <input type="tel" class="form-control custom-input" id="phonenumber" asp-for="OrderHeader.PhoneNumber" />
+                        }
+                        <span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control custom-input" id="address" asp-for="OrderHeader.Address" />
+                        <span asp-validation-for="OrderHeader.Address" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        @if (user.PhoneNumberConfirmed)
+                        {
+                            <label for="email">Email (Optional) <span class="text-muted"></span></label>
+                            <input type="email" class="form-control custom-input" id="email" asp-for="OrderHeader.Email" />
+                        }
+                        else
+                        {
+                            <label for="email">Email <span class="text-muted"></span></label>
+                            <input type="email" disabled class="form-control custom-input" id="email" asp-for="OrderHeader.Email" />
+                            <input type="hidden" id="email" asp-for="OrderHeader.Email" />
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="region">Region</label>
+                        <select class="form-control custom-input" id="region" asp-for="OrderHeader.Region">
+                            <option value="">Select Region</option>
+                        </select>
+                        <span asp-validation-for="OrderHeader.Region" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="city">City</label>
+                        <select class="form-control custom-input" id="city" asp-for="OrderHeader.City">
+                            <option value="">Select City</option>
+                        </select>
+                        <span asp-validation-for="OrderHeader.City" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="additionalinformation">Notes (Optional)</label>
+                        <input type="text" class="form-control custom-input" id="additionalinformation" asp-for="OrderHeader.AdditionalInformation" />
+                        <span asp-validation-for="OrderHeader.AdditionalInformation" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="additionalphonenumber">Additional Phone (Optional)</label>
+                        <input type="tel" class="form-control custom-input" id="additionalphonenumber" asp-for="OrderHeader.AdditionalPhoneNumber" />
+                        <span asp-validation-for="OrderHeader.AdditionalPhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="totalPriceHidden" asp-for="OrderHeader.totalPrice" />
+            <input type="hidden" id="shippingCostHidden" asp-for="OrderHeader.shippingCost" />
+            <input type="hidden" id="subTotalHidden" asp-for="OrderHeader.SubTotal" />
+
+            <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <h4 class="mtext-109 cl2 p-b-30">
+                        YOUR ORDER
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0"><strong>Product Name</strong></h6>
+                            </div>
+                            <span class="text-muted"><strong>Price</strong></span>
+                        </li>
+                        @foreach (var item in Model.shoppingCarts)
+                        {
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h6 class="my-0">@item.Product.Name (@item.Count)</h6>
+                                </div>
+                                @if(item.Product.OfferPrice != 0)
+                                {
+                                    <span class="text-muted">EGP @(item.Product.OfferPrice * item.Count)</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">EGP @(item.Product.Price * item.Count)</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Subtotal:</strong>
+                            <strong id="subtotal" style="color:#717FE0">EGP @Model.OrderHeader.totalPrice</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Delivery fees:</strong>
+                            <strong id="deliveryFees" style="color:#717FE0">EGP 0</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Total (EGP)</strong>
+                            <strong id="totalPrice" style="color:#717FE0">EGP @Model.OrderHeader.totalPrice</strong>
+                        </li>
+                    </ul>
+                    <button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15" asp-action="Checkout">
+                        Place Order
+                    </button>
+                </div>
+            </div>
+
+		</div>
+	</div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to hide validation error messages
+            function hideValidationMessage(inputId, validationName) {
+                var input = document.getElementById(inputId);
+                var validationSpan = document.querySelector("span[data-valmsg-for='" + validationName + "']");
+                if (input && validationSpan) {
+                    input.addEventListener("input", function () {
+                        validationSpan.style.display = "none";
+                    });
+                }
+            }
+
+            // Applying the function to all relevant fields
+            hideValidationMessage("name", "OrderHeader.Name");
+            hideValidationMessage("phonenumber", "OrderHeader.PhoneNumber");
+            hideValidationMessage("additionalphonenumber", "OrderHeader.AdditionalPhoneNumber");
+            hideValidationMessage("address", "OrderHeader.Address");
+            hideValidationMessage("region", "OrderHeader.Region");
+            hideValidationMessage("city", "OrderHeader.City");
+            hideValidationMessage("additionalinformation", "OrderHeader.AdditionalInformation");
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const regionSelect = document.getElementById("region");
+            const citySelect = document.getElementById("city");
+            const subtotalElement = document.getElementById("subtotal");
+            const deliveryFeesElement = document.getElementById("deliveryFees");
+            const totalPriceElement = document.getElementById("totalPrice");
+            // values
+            const totalPriceHidden = document.getElementById("totalPriceHidden");
+            const shippingCostHidden = document.getElementById("shippingCostHidden");
+            const subTotalHidden = document.getElementById("subTotalHidden");
+
+            // Shipping rates
+            const shippingRates = {
+                "Egypt": [
+                    { "governorate": "Cairo", "shippingPrice": 50 },
+                    { "governorate": "Giza", "shippingPrice": 50 },
+                    { "governorate": "Alex", "shippingPrice": 75 },
+                    { "governorate": "Aswan", "shippingPrice": 130 },
+                    { "governorate": "Luxor", "shippingPrice": 130 },
+                    { "governorate": "Ismailia", "shippingPrice": 75 },
+                    { "governorate": "Port Said", "shippingPrice": 75 },
+                    { "governorate": "Suez", "shippingPrice": 75 },
+                    { "governorate": "Fayoum", "shippingPrice": 85 },
+                    { "governorate": "Qena", "shippingPrice": 100 },
+                    { "governorate": "Assuit", "shippingPrice": 100 },
+                    { "governorate": "Miniya", "shippingPrice": 85 },
+                    { "governorate": "Sohag", "shippingPrice": 100 },
+                    { "governorate": "Beni Suef", "shippingPrice": 85 },
+                    { "governorate": "Damietta", "shippingPrice": 75 },
+                    { "governorate": "Daqahliya", "shippingPrice": 75 },
+                    { "governorate": "Sharqiya", "shippingPrice": 75 },
+                    { "governorate": "MinouFiya", "shippingPrice": 75 },
+                    { "governorate": "Gharbiya", "shippingPrice": 75 },
+                    { "governorate": "Kafr El Sheikh", "shippingPrice": 75 },
+                    { "governorate": "Behaira", "shippingPrice": 75 },
+                    { "governorate": "Matruh", "shippingPrice": 130 },
+                    { "governorate": "Red Sea", "shippingPrice": 130 },
+                    { "governorate": "New Valley", "shippingPrice": 130 },
+                    { "governorate": "North Sinai", "shippingPrice": 130 },
+                    { "governorate": "South Sinai", "shippingPrice": 130 },
+                    { "governorate": "Marsa Allam", "shippingPrice": 130 },
+                    { "governorate": "North Coast", "shippingPrice": 130 },
+                    { "governorate": "Qaliyobiya", "shippingPrice": 75 }
+                ]
+            };
+
+            // Fetch JSON data
+            fetch('/Fawary.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Populate regions dropdown
+                    data.forEach(region => {
+                        const option = document.createElement("option");
+                        option.value = region.namePrimaryLang;
+                        option.textContent = region.namePrimaryLang;
+                        regionSelect.appendChild(option);
+                    });
+
+                    // Set selected region and city
+                    regionSelect.value = "@Model.OrderHeader.Region";
+                    populateCities(regionSelect.value, data);
+                    citySelect.value = "@Model.OrderHeader.City";
+
+                    // Event listeners
+                    regionSelect.addEventListener("change", function () {
+                        populateCities(this.value, data);
+                        updateTotal();
+                    });
+
+                    citySelect.addEventListener("change", function () {
+                        updateTotal();
+                    });
+
+                    function populateCities(selectedRegion, data) {
+                        citySelect.innerHTML = '<option value="">Select City</option>';
+
+                        const regionData = data.find(r => r.namePrimaryLang === selectedRegion);
+                        if (regionData && regionData.cityDataModels) {
+                            regionData.cityDataModels.forEach(city => {
+                                const option = document.createElement("option");
+                                option.value = city.namePrimaryLang;
+                                option.textContent = city.namePrimaryLang;
+                                citySelect.appendChild(option);
+
+                                // Check areaDataModels for additional cities
+                                if (city.areaDataModels) {
+                                    city.areaDataModels.forEach(area => {
+                                        if (area.namePrimaryLang !== city.namePrimaryLang) {
+                                            const areaOption = document.createElement("option");
+                                            areaOption.value = area.namePrimaryLang;
+                                            areaOption.textContent = area.namePrimaryLang;
+                                            citySelect.appendChild(areaOption);
+                                        }
+                                    });
+                                }
+                            });
+
+                            // Set selected city
+                            citySelect.value = "@Model.OrderHeader.City";
+                        }
+                    }
+
+                    function updateTotal() {
+                        const selectedRegion = regionSelect.value;
+                        const selectedCity = citySelect.value;
+                        if (shippingRates["Egypt"]) {
+                            const regionData = shippingRates["Egypt"].find(r => r.governorate === selectedRegion);
+                            if (regionData) {
+                                shippingCost = regionData.shippingPrice;
+                            }
+                        }
+
+                        // Update delivery fees and total price
+                        const subtotal = parseFloat(subtotalElement.textContent.replace('EGP', '').trim()) || 0;
+                        deliveryFeesElement.textContent = `EGP ${shippingCost.toFixed(2)}`;
+                        totalPriceElement.textContent = `EGP ${(subtotal + shippingCost).toFixed(2)}`;
+
+                        // values in database
+                        document.getElementById("totalPriceHidden").value = (subtotal + shippingCost).toFixed(2);
+                        document.getElementById("shippingCostHidden").value = shippingCost.toFixed(2);
+                        document.getElementById("subTotalHidden").value = subtotal.toFixed(2);
+                    }
+                    updateTotal();
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        });
+    </script>
+}
+<style>
+    .custom-input {
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        padding: 0.375rem 0.75rem;
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        line-height: 1.7;
+    }
+
+        .custom-input:focus {
+            border-color: #717fe0;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+
+        .custom-input::placeholder {
+            color: #6c757d;
+            opacity: 1;
+        }
+
+        .custom-input:disabled {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
+</style>

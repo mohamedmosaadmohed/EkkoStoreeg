@@ -1,0 +1,152 @@
+﻿@using EkkoSoreeg.Entities.ViewModels
+@using System.Security.Claims
+@model ShoppingCartVM
+@{
+	var claimsIdentity = User.Identity as ClaimsIdentity;
+	var claim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
+}
+
+<div class="wrap-header-cart js-panel-cart">
+	<div class="s-full js-hide-cart"></div>
+
+	<div class="header-cart flex-col-l p-l-65 p-r-25">
+		<div class="header-cart-title flex-w flex-sb-m p-b-8">
+			<span class="mtext-103 cl2">
+				Your Cart
+			</span>
+
+			<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+				<i class="zmdi zmdi-close"></i>
+			</div>
+		</div>
+		@if (Model.totalCarts != 0)
+		{
+			<div class="header-cart-content flex-w js-pscroll">
+				@foreach (var item in Model.shoppingCarts)
+				{
+					<ul class="header-cart-wrapitem w-full">
+						<li class="header-cart-item d-flex flex-t mb-3">
+							<div class="header-cart-item-img">
+								<img src="~/@item.Product.ProductImages.First().ImagePath" alt="IMG">
+							</div>
+
+							<div class="header-cart-item-txt d-flex justify-content-between align-items-center p-t-6 w-100">
+								<div>
+									<a href="/Customer/Home/Details/@item.Product.Id" class="header-cart-item-name m-b-4 hov-cl1 trans-04">
+										@item.Product.Name (@item.Count)
+									</a>
+									@if(item.Product.OfferPrice != 0)
+									{
+										<span class="header-cart-item-info">
+											@item.Product.OfferPrice
+										</span>
+									}
+									else
+									{
+										<span class="header-cart-item-info">
+											@item.Product.Price
+										</span>
+									}
+								</div>
+								@if(claim != null)
+								{
+									<a asp-area="Customer" asp-controller="Cart" asp-action="Remove" asp-route-cartid="@item.shoppingId" class="delete">
+										<i class="fas fa-times"></i>
+									</a>
+								}
+								else
+								{
+									<a asp-controller="Cart" asp-action="Remove" asp-route-guidid="@item.shoppingIdGuid" class="delete">
+										<i class="fas fa-times"></i>
+									</a>
+								}
+							</div>
+						</li>
+					</ul>
+				}
+				<style>
+					.delete{
+						color:#000;
+						width:60px;
+						height: auto;
+					}
+				</style>
+				<div class="w-full">
+					<div class="header-cart-total w-full p-tb-40">
+						Total: @Model.totalCarts
+					</div>
+
+					<div class="header-cart-buttons flex-w w-full">
+						<a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+							View Cart
+						</a>
+
+						<a asp-area="Customer" asp-controller="Cart" asp-action="CheckOut" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+							Check Out
+						</a>
+					</div>
+				</div>
+			</div>
+		}
+		else
+		{
+			<style>
+				.card {
+					margin-bottom: 30px;
+					border: 0;
+					-webkit-transition: all .3s ease;
+					transition: all .3s ease;
+					letter-spacing: .5px;
+					border-radius: 8px;
+					-webkit-box-shadow: 1px 5px 24px 0 rgba(68,102,242,.05);
+					box-shadow: 1px 5px 24px 0 rgba(68,102,242,.05);
+				}
+
+					.card .card-header {
+						background-color: #fff;
+						border-bottom: none;
+						padding: 24px;
+						border-bottom: 1px solid #f6f7fb;
+						border-top-left-radius: 8px;
+						border-top-right-radius: 8px;
+					}
+
+				.card-header:first-child {
+					border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+				}
+
+
+
+				.card .card-body {
+					padding: 30px;
+					background-color: transparent;
+				}
+
+				.btn-primary, .btn-primary.disabled, .btn-primary:disabled {
+					background-color: #717FE0 !important;
+					border-color: #717FE0 !important;
+					padding: 10px 10px;
+				}
+			</style>
+			<div class="container-fluid mt-100">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body cart">
+								<div class="col-sm-12 empty-cart-cls text-center">
+									<img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+									<h3><strong>Your Cart is Empty</strong></h3>
+									<div class="d-flex justify-content-center mt-4" style="border-radius:20px">
+										<a asp-area="Customer" asp-controller="Shop" asp-action="Index" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+											Shop Now
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

@@ -1,0 +1,151 @@
+﻿@page "{id:int}"
+@using EkkoSoreeg.Utilities
+@using EkkoSoreeg.Web.Pages.Orders
+@model OrderDetailsModel
+@{
+    ViewData["Title"] = "Order Details";
+    DateTime newDate = Model.OrderHeader.orderDate.AddDays(5);
+}
+<section class="py-4">
+    <div class="container px-2 px-lg-5 mt-5">
+        <div class="row">
+           <div class="container order-details-page">
+                <h2 class="page-title">Order Details</h2>
+                <hr />
+                @if (Model.OrderHeader != null && Model.OrderDetails != null && Model.OrderDetails.Any())
+                {
+                    <div class="order-summary card mb-3">
+                        <div class="card-header" style="text-align:center">
+                            <h3 class="mb-1"><strong>Order Number:</strong> @Model.OrderHeader.Id</h3>
+                            <p><strong>Order Date:</strong> @Model.OrderHeader.orderDate.ToShortDateString()</p>
+                            <br />
+                            <p>
+                                <strong>Order Shipping: between @Model.OrderHeader.orderDate.ToShortDateString() to @newDate.ToShortDateString()</strong>
+                            </p>
+                        </div>
+                        <div class="order-details-page">
+                            @foreach(var item  in Model.OrderDetails)
+                            {
+                                <div class="order-summary">
+                                    <div class="product-details row">
+                                        <div class="product-image col-12 col-md-2">
+                                            <img src="~/@item.product.ProductImages.First().ImagePath" alt="Product Image" class="img-fluid" />
+                                        </div>
+                                        <div class="product-info col-12 col-md-10 pl-md-2 mt-2 mt-md-0">
+                                            <h5 class="product-name">@item.product.Name</h5>
+                                            <p class="product-price">@item.price EGP</p>
+                                            <p class="product-quantity">Count: @item.Count</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                        <hr />
+                        <div class="shipping-payment-info row">
+                            <div class="shipping-info col-md-6 mb-3">
+                                <h4 class="mb-1">Delivery Information</h4>
+                                <hr />
+                                <table class="table">
+                                    <tr>
+                                        <td>Delivery Method</td>
+                                        <td>Cash on Delivery</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery Address</td>
+                                        <td>@Model.OrderHeader.Address,
+                                            <br>@Model.OrderHeader.Region,
+                                            <br>@Model.OrderHeader.City</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="payment-info col-md-6 mb-3">
+                                <h4 class="mb-1">Payment Information</h4>
+                                <hr />
+                                <table class="table">
+                                    <tr>
+                                        <td>Payment Method</td>
+                                        <td>Cash on Delivery</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Products</td>
+                                        <td>EGP @Model.OrderHeader.SubTotal</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipping Cost</td>
+                                        <td>EGP @Model.OrderHeader.shippingCost</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>EGP @Model.OrderHeader.totalPrice</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="justify-content-center" style="text-align:center;">
+                            @{
+                                var status = Model.OrderHeader.orderStatus;
+                            }
+                            @if (status == SD.Pending || status == SD.Approve || status == SD.Shipped)
+                            {
+                                <form method="post" asp-page-handler="CancelOrder" asp-route-id="@Model.OrderHeader.Id">
+                                    <button type="submit" class="btn btn-danger">Cancel Order</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <p>Order details not found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .order-details-page {
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .order-summary {
+        background-color: #eaeaea;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .product-details {
+        display: flex;
+        align-items: center;
+    }
+
+    .product-image img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+
+    .product-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .shipping-payment-info {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .shipping-info, .payment-info {
+        width: 100%;
+    }
+</style>

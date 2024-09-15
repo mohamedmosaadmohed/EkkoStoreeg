@@ -1,0 +1,437 @@
+﻿@using EkkoSoreeg.Web.ViewComponents
+@using Microsoft.AspNetCore.Http;
+@using EkkoSoreeg.Utilities;
+@inject IHttpContextAccessor _http;
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EkkoStore - Online Store</title>
+
+	<!-- Meta SEO -->
+	<meta name="description" content="EkkoStore is your go-to online clothing store offering the latest fashion trends at affordable prices. Shop now for the best deals on men's and children's apparel.">
+	<meta name="keywords" content="online clothing store, fashion, men's clothing,children's clothing, affordable fashion, trendy clothes, EkkoStore">
+	<meta name="author" content="EkkoStore Team">
+	@* These help improve your site's visibility when shared on social media platforms like Facebook *@
+	<meta property="og:title" content="EkkoStore - Your One-Stop Online Clothing Store">
+	<meta property="og:description" content="Explore the latest fashion trends and shop for high-quality clothing for men and children at EkkoStore. Enjoy affordable prices and fast shipping!">
+	<meta property="og:image" content="https://ekkostoreeg.runasp.net/Customer/images/icons/black_image-rem.png">
+	<meta property="og:url" content="https://ekkostoreeg.runasp.net/">
+	<meta property="og:type" content="website">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="EkkoStore - Your One-Stop Online Clothing Store">
+	<meta name="twitter:description" content="Find the best deals on fashion clothing at EkkoStore. Shop now for trendy apparel for men, women, and children.">
+	<meta name="twitter:image" content="https://ekkostoreeg.runasp.net/Customer/images/icons/black_image-rem.png">
+	<meta name="twitter:site" content="EkkoStore">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="~/Customer/images/icons/black_image-rem.png">
+
+	<!-- CSS Files -->
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/fonts/linearicons-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/slick/slick.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/MagnificPopup/magnific-popup.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/css/util.css">
+	<link rel="stylesheet" type="text/css" href="~/Customer/css/main.css">
+
+	<!-- Include SweetAlert CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+	<!-- Header -->
+	<header>
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Topbar -->
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Free shipping for standard order over EGP 3000
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+						<a asp-controller="Contact" asp-action="Index" class="flex-c-m trans-04 p-lr-25">
+							Help & FAQs
+						</a>
+						<a href="#" class="flex-c-m trans-04 p-lr-25">
+							EN
+						</a>
+
+						<a href="#" class="flex-c-m trans-04 p-lr-25">
+							EGP
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-menu-desktop">
+				<nav class="limiter-menu-desktop container">
+					<!-- Logo desktop -->
+					<a asp-area="Customer" asp-controller="Home" asp-action="Index" class="logo">
+						<img src="~/Customer/images/icons/black_image-rem.png" alt="IMG-LOGO">
+						<span class="ekko">EkkoStore</span>
+					</a>
+					<style>
+						.ekko {
+							font-size: 24px;
+							font-weight: bold;
+							color:#000
+						}
+					</style>
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+							<li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active-menu" : "")">
+								<a asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+							</li>
+							<li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Shop" ? "active-menu" : "")">
+								<a asp-area="Customer" asp-controller="Shop" asp-action="Index">Shop</a>
+							</li>
+							<li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Cart" ? "active-menu" : "")">
+								<a asp-area="Customer" asp-controller="Cart" asp-action="Index">Cart</a>
+							</li>
+							<li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "AboutUs" ? "active-menu" : "")">
+								<a asp-area="Customer" asp-controller="Home" asp-action="AboutUs">About</a>
+							</li>
+							<li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Contact" ? "active-menu" : "")">
+								<a asp-area="Customer" asp-controller="Contact" asp-action="Index">Contact</a>
+							</li>
+							@if (User.Identity.IsAuthenticated && User.IsInRole(SD.AdminRole))
+							{
+								<li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active-menu" : "")">
+									<a asp-area="Admin" asp-controller="Dash" asp-action="Index">Dashboard</a>
+								</li>
+							}
+						</ul>
+					</div>
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						<partial name="_LoginPartial" />
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+							<i class="zmdi zmdi-search"></i>
+						</div>
+						@await Component.InvokeAsync("Wish")
+						@await Component.InvokeAsync("ShoppingCart")
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->
+			<div class="logo-mobile">
+				<a asp-area="Customer" asp-controller="Home" asp-action="Index"><img src="~/Customer/images/icons/black_image-rem.png" alt="IMG-LOGO"></a>
+			</div>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+					<i class="zmdi zmdi-search"></i>
+				</div>
+				<partial name="_LoginPartial" />
+				@await Component.InvokeAsync("Wish")
+				@await Component.InvokeAsync("ShoppingCart")
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Free shipping for standard order over EGP 3000
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+						<a asp-controller="Contact" asp-action="Index" class="flex-c-m p-lr-10 trans-04">
+							Help & FAQs
+						</a>
+						<a href="#" class="flex-c-m p-lr-10 trans-04">
+							EN
+						</a>
+
+						<a href="#" class="flex-c-m p-lr-10 trans-04">
+							EGP
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="main-menu-m">
+				<li>
+					<a asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+				</li>
+
+				<li>
+					<a asp-area="Customer" asp-controller="Shop" asp-action="Index" class="label1 rs1" data-label1="hot">Shop</a>
+				</li>
+				<li>
+					<a asp-area="Customer" asp-controller="Cart" asp-action="Index">Cart</a>
+				</li>
+
+				<li>
+					<a asp-area="Customer" asp-controller="Home" asp-action="AboutUs">About</a>
+				</li>
+
+				<li>
+					<a asp-area="Customer" asp-controller="Contact" asp-action="Index">Contact</a>
+				</li>
+				@if (User.Identity.IsAuthenticated && User.IsInRole(SD.AdminRole))
+				{
+					<li>
+						<a asp-area="Admin" asp-controller="Dash" asp-action="Index">Dashboard</a>
+					</li>
+				}
+			</ul>
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="~/Customer/images/icons/icon-close2.png" alt="CLOSE">
+				</button>
+
+				<div class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input type="text" id="searchInput" class="plh3" type="text" name="search" placeholder="Search...">
+					<div id="results" class="flex-w p-l-15">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!--Loader-->
+	<!-- Loader -->
+	<div id="loader" class="loader">
+		<div class="spinner"></div>
+	</div>
+	<!-- Cart -->
+	@await Component.InvokeAsync("Cart")
+		@RenderBody()
+	<!-- Footer -->
+	<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+
+					<ul>
+						<li class="p-b-10">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="T-Shirts" class="stext-107 cl7 hov-cl1 trans-04">
+								T-Shirts
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="Jeans" class="stext-107 cl7 hov-cl1 trans-04">
+								Jeans
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="Pants" class="stext-107 cl7 hov-cl1 trans-04">
+								Pants
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" asp-route-category="Shorts" class="stext-107 cl7 hov-cl1 trans-04">
+								Shorts
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Help
+					</h4>
+
+					<ul>
+						<li class="p-b-10">
+							<a href="https://wa.me/201004958040" class="stext-107 cl7 hov-cl1 trans-04">
+								Track Order
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="https://wa.me/201004958040" class="stext-107 cl7 hov-cl1 trans-04">
+								Returns
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="https://wa.me/201004958040" class="stext-107 cl7 hov-cl1 trans-04">
+								Shipping
+							</a>
+						</li>		
+						<li class="p-b-10">
+							<a asp-area="Customer" asp-controller="Shop" asp-action="Index" class="stext-107 cl7 hov-cl1 trans-04">
+								FAQs
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+
+					<p class="stext-107 cl7 size-201">
+						Sheikh Zayed - Third District - Second Neighborhood - Building 66 B - Ground Floor 1 <br />or call us on  01004958040
+					</p>
+
+					<div class="p-t-27">
+						<a href="https://www.instagram.com/ekkostoreeg?igsh=NGhuc3lmOHJyYmV3" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fab fa-instagram"></i>
+						</a>
+
+						<a href="https://www.tiktok.com/@@ekkostoreeg?_t=8oja9qiuPr7&_r=1" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fab fa-tiktok"></i>
+						</a>			
+						<a href="https://wa.me/201004958040" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fab fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
+
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="email@example.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="p-t-40">
+				<p class="stext-107 cl6 txt-center">
+					Copyright &copy All rights reserved | Made with  <a href="https://wa.me/201069584593" target="_blank">Eng Mohamed Henaish</a><i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/share/BGZy6T7bx7iJ6Xbn/?mibextid=qi2Omg" target="_blank"> Byte</a>
+				</p>
+			</div>
+		</div>
+	</footer>
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/animsition/js/animsition.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/bootstrap/js/popper.js"></script>
+	<script src="~/Customer/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/select2/select2.min.js"></script>
+	<script>
+		window.onload = function () {
+			setTimeout(function () {
+				document.getElementById("loader").style.display = "none";
+			}, 1000);
+		};
+	</script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/daterangepicker/moment.min.js"></script>
+	<script src="~/Customer/vendor/daterangepicker/daterangepicker.js"></script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/slick/slick.min.js"></script>
+	<script src="~/Customer/js/slick-custom.js"></script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/parallax100/parallax100.js"></script>
+	<script>
+		$('.parallax100').parallax100();
+	</script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/isotope/isotope.pkgd.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/sweetalert/sweetalert.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			// Listen for input changes in the search input
+			$('#searchInput').on('input', function () {
+				let query = $(this).val();
+
+				// Send an AJAX GET request to the search action
+				$.get('/Customer/Home/Search', { query: query }, function (data) {
+					// Update the results div with the returned data (partial view)
+					$('#results').html(data);
+				});
+			});
+		});
+	</script>
+	<!--===============================================================================================-->
+	<script src="~/Customer/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

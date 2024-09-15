@@ -1,0 +1,51 @@
+﻿<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="~/Dashboard/JQuary/datatables.min.css">
+<script src="~/Customer/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+@if (TempData["Create"] != null)
+{
+    <script type="text/javascript">
+        toastr["success"]("@TempData["Create"]")
+    </script>
+}
+@if (TempData["Update"] != null)
+{
+    <script type="text/javascript">
+        toastr["info"]("@TempData["Update"]")
+    </script>
+}
+@if (TempData["Delete"] != null)
+{
+    <script type="text/javascript">
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "timeOut": "5000",
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr["error"]("@TempData["Delete"]")
+    </script>
+}
+@if (TempData["Order"] != null)
+{
+    <script type="text/javascript">
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "timeOut": "5000",
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr["success"]("@TempData["Order"]")
+    </script>
+}

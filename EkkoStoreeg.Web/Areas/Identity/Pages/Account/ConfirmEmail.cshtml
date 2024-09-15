@@ -1,0 +1,27 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+            <div class="text">
+                <h1 class="mb-4">@ViewData["Title"]</h1>
+                <partial name="_StatusMessage" model="Model.StatusMessage" />
+        </div>
+     </div>
+</section>
+<style>
+        .text {
+            margin-top: 120px;
+            margin-bottom: 170px;
+        }
+
+        .text h1 {
+            font-weight: bold;
+            padding-bottom: 10px;
+        }
+</style>
+
+
