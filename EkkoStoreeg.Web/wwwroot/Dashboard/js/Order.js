@@ -17,7 +17,7 @@ function loaddata() {
             { "data": "phoneNumber" },
             { "data": "orderStatus" },
             { "data": "totalPrice" },
-            { "data": "applicationUser.email" },
+            { "data": "region" },
             {
                 "data": "id",
                 "render": function (data) {

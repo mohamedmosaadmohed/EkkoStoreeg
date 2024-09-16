@@ -25,12 +25,6 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputText" class="col-sm-2 col-form-label">Additional Phone</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="additionalphonenumber" asp-for="orderHeader.AdditionalPhoneNumber">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
                             <label for="inputText" class="col-sm-2 col-form-label">Address</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="address" asp-for="orderHeader.Address">
@@ -43,21 +37,25 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputText" class="col-sm-2 col-form-label">Region</label>
+                            <label for="region" class="col-sm-2 col-form-label">Region</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="region" asp-for="orderHeader.Region">
+                                <select class="form-select" id="region" asp-for="orderHeader.Region">
+                                    <option value="">Select a region</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputText" class="col-sm-2 col-form-label">City</label>
+                            <label for="city" class="col-sm-2 col-form-label">City</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="city" asp-for="orderHeader.City">
+                                <select class="form-select" id="city" asp-for="orderHeader.City">
+                                    <option value="">Select a city</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="inputText" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="text" disabled class="form-control" id="email" asp-for="orderHeader.Email">
+                                <input type="text" class="form-control" id="email" asp-for="orderHeader.Email">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -78,6 +76,14 @@
                                 <input type="text" class="form-control" id="trackingNumber" asp-for="orderHeader.TrackingNumber">
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="inputText" class="col-sm-2 col-form-label">Additional Phone</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="additionalphonenumber" asp-for="orderHeader.AdditionalPhoneNumber">
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedRegion" value="@Model.orderHeader.Region" />
+                        <input type="hidden" id="selectedCity" value="@Model.orderHeader.City" />
                         <input type="submit" asp-action="UpdateOrderDetails" class="btn btn-primary btn-block" value="Update PickUp" />
                     </div>
                 </div>
@@ -183,5 +189,74 @@
             }
             return true;
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const regionSelect = document.getElementById("region");
+            const citySelect = document.getElementById("city");
+            const selectedRegion = document.getElementById("selectedRegion").value;
+            const selectedCity = document.getElementById("selectedCity").value;
+
+            // Fetch JSON data for regions and cities
+            fetch('/Fawary.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Populate regions dropdown
+                    data.forEach(region => {
+                        const option = document.createElement("option");
+                        option.value = region.namePrimaryLang; // use nameSecondaryLang for RTL
+                        option.textContent = region.namePrimaryLang; // for RTL language name display
+                        regionSelect.appendChild(option);
+                    });
+
+                    // Set the selected region and populate the cities dropdown
+                    if (selectedRegion) {
+                        regionSelect.value = selectedRegion;
+                        populateCities(selectedRegion, data);  // Populate cities for the saved region
+                    }
+
+                    // Set the saved city value once the cities are populated
+                    if (selectedCity) {
+                        citySelect.value = selectedCity;
+                    }
+
+                    // Event listeners for region and city selection
+                    regionSelect.addEventListener("change", function () {
+                        if (this.value) {
+                            populateCities(this.value, data);
+                        } else {
+                            citySelect.innerHTML = `<option value="">Select a city</option>`;
+                        }
+                    });
+
+                    // Function to populate the cities dropdown based on the selected region
+                    function populateCities(selectedRegion, data) {
+                        citySelect.innerHTML = `<option value="">Select a city</option>`;
+
+                        const regionData = data.find(r => r.namePrimaryLang === selectedRegion);
+                        if (regionData && regionData.cityDataModels) {
+                            regionData.cityDataModels.forEach(city => {
+                                const option = document.createElement("option");
+                                option.value = city.namePrimaryLang; // Use nameSecondaryLang for cities
+                                option.textContent = city.namePrimaryLang; // Display cities in RTL
+                                citySelect.appendChild(option);
+
+                                // Check areaDataModels for additional cities
+                                if (city.areaDataModels) {
+                                    city.areaDataModels.forEach(area => {
+                                        if (area.namePrimaryLang !== city.namePrimaryLang) {
+                                            const areaOption = document.createElement("option");
+                                            areaOption.value = area.namePrimaryLang;
+                                            areaOption.textContent = area.namePrimaryLang;
+                                            citySelect.appendChild(areaOption);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        });
     </script>
 }
