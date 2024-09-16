@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EkkoSoreeg.DataAccess.Migrations
+namespace EkkoStoreeg.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class gh : Migration
+    public partial class server : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

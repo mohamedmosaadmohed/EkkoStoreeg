@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EkkoSoreeg.DataAccess.Migrations
+namespace EkkoStoreeg.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240812222646_fff")]
-    partial class fff
+    [Migration("20240916143437_server")]
+    partial class server
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
