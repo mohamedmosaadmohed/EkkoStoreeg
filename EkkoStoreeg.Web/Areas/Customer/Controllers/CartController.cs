@@ -262,8 +262,11 @@ namespace EkkoSoreeg.Web.Areas.Customer.Controllers
                 shoppingCartvm.OrderHeader.ApplicationUserId = claim.Value;
 
                 applicationUser.Name = shoppingCartvm.OrderHeader.Name;
-                applicationUser.Email = shoppingCartvm.OrderHeader.Email;
-                applicationUser.NormalizedEmail = shoppingCartvm.OrderHeader.Email?.ToUpper();
+				if(shoppingCartvm.OrderHeader.Email != null)
+				{
+                    applicationUser.Email = shoppingCartvm.OrderHeader.Email;
+                    applicationUser.NormalizedEmail = shoppingCartvm.OrderHeader.Email?.ToUpper();
+                }
                 applicationUser.PhoneNumber = shoppingCartvm.OrderHeader.PhoneNumber;
                 applicationUser.AdditionalPhoneNumber = shoppingCartvm.OrderHeader.AdditionalPhoneNumber;
                 applicationUser.Address = shoppingCartvm.OrderHeader.Address;

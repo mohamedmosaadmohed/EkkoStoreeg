@@ -25,15 +25,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="phonenumber">Phone Number</label>
-                        @if (user.PhoneNumberConfirmed)
-                        {
-                            <input type="tel" class="form-control custom-input" disabled id="phonenumber" asp-for="OrderHeader.PhoneNumber" />
-                            <input type="hidden" id="phonenumber" asp-for="OrderHeader.PhoneNumber"/>
-                        }
-                        else
-                        {
-                            <input type="tel" class="form-control custom-input" id="phonenumber" asp-for="OrderHeader.PhoneNumber" />
-                        }
+                        <input type="tel" class="form-control custom-input" id="phonenumber" asp-for="OrderHeader.PhoneNumber" />
                         <span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
@@ -44,16 +36,15 @@
                         <span asp-validation-for="OrderHeader.Address" class="text-danger"></span>
                     </div>
                     <div class="col-md-6 mb-3">
-                        @if (user.PhoneNumberConfirmed)
-                        {
-                            <label for="email">Email (Optional) <span class="text-muted"></span></label>
-                            <input type="email" class="form-control custom-input" id="email" asp-for="OrderHeader.Email" />
-                        }
-                        else
+                        @if (user?.Email != null)
                         {
                             <label for="email">Email <span class="text-muted"></span></label>
                             <input type="email" disabled class="form-control custom-input" id="email" asp-for="OrderHeader.Email" />
-                            <input type="hidden" id="email" asp-for="OrderHeader.Email" />
+                        }
+                        else
+                        {
+                            <label for="email">Email (Optional) <span class="text-muted"></span></label>
+                            <input type="email" class="form-control custom-input" id="email" asp-for="OrderHeader.Email" />                            
                         }
                     </div>
                 </div>

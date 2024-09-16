@@ -23,13 +23,15 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager,
-            ILogger<LoginModel> logger,ApplicationDbContext context)
+            ILogger<LoginModel> logger,ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -82,7 +84,7 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
                 ApplicationUser user;
                 if (isPhone)
                 {
-                    user = await _context.TbapplicationUser.FirstOrDefaultAsync(u => u.PhoneNumber == Input.EmailOrPhone);
+                    user = await _userManager.FindByNameAsync(Input.EmailOrPhone);
                     if (user == null)
                     {
                         ModelState.AddModelError(string.Empty, "Phone number does not exist.");
@@ -91,7 +93,7 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    user = await _context.TbapplicationUser.FirstOrDefaultAsync(u => u.Email == Input.EmailOrPhone);
+                    user = await _userManager.FindByNameAsync(Input.EmailOrPhone);
                     if (user == null)
                     {
                         ModelState.AddModelError(string.Empty, "Email does not exist.");

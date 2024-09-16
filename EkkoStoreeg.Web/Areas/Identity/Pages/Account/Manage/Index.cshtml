@@ -25,29 +25,28 @@
                         <span asp-validation-for="Input.Name" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3">
-                        @if (user.PhoneNumberConfirmed)
-                        {
-                            <input asp-for="Input.PhoneNumber" disabled class="form-control"/>
-                            <input type="hidden" asp-for="Input.PhoneNumber" />
-                        }
-                        else
-                        {
-                            <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Your Phone." />
-                        }
+                        <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Your Phone." />
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select asp-for="Input.Region" id="region" class="form-select">
+                            <option value="">Select your region</option>
+                        </select>
+                        <span asp-validation-for="Input.Region" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select asp-for="Input.City" id="city" class="form-select">
+                            <option value="" >Select your city</option>
+                        </select>
+                        <span asp-validation-for="Input.City" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Address" class="form-control" placeholder="Your Address." />
                         <span asp-validation-for="Input.Address" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Region" class="form-control" placeholder="Your Regin." />
-                        <span asp-validation-for="Input.Region" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.City" class="form-control" placeholder="Your City." />
-                        <span asp-validation-for="Input.City" class="text-danger"></span>
-                    </div>
+                    <input type="hidden" id="selectedRegion" value="@Model.Input.Region" />
+                    <input type="hidden" id="selectedCity" value="@Model.Input.City" />
                     <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
                 </form>
             </div>
@@ -58,4 +57,73 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const regionSelect = document.getElementById("region");
+            const citySelect = document.getElementById("city");
+            const selectedRegion = document.getElementById("selectedRegion").value;
+            const selectedCity = document.getElementById("selectedCity").value;
+
+            // Fetch JSON data for regions and cities
+            fetch('/Fawary.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Populate regions dropdown
+                    data.forEach(region => {
+                        const option = document.createElement("option");
+                        option.value = region.namePrimaryLang; // use nameSecondaryLang for RTL
+                        option.textContent = region.namePrimaryLang; // for RTL language name display
+                        regionSelect.appendChild(option);
+                    });
+
+                    // Set the selected region and populate the cities dropdown
+                    if (selectedRegion) {
+                        regionSelect.value = selectedRegion;
+                        populateCities(selectedRegion, data);  // Populate cities for the saved region
+                    }
+
+                    // Set the saved city value once the cities are populated
+                    if (selectedCity) {
+                        citySelect.value = selectedCity;
+                    }
+
+                    // Event listeners for region and city selection
+                    regionSelect.addEventListener("change", function () {
+                        if (this.value) {
+                            populateCities(this.value, data);
+                        } else {
+                            citySelect.innerHTML = `<option value="">Select a city</option>`;
+                        }
+                    });
+
+                    // Function to populate the cities dropdown based on the selected region
+                    function populateCities(selectedRegion, data) {
+                        citySelect.innerHTML = `<option value="">Select a city</option>`;
+
+                        const regionData = data.find(r => r.namePrimaryLang === selectedRegion);
+                        if (regionData && regionData.cityDataModels) {
+                            regionData.cityDataModels.forEach(city => {
+                                const option = document.createElement("option");
+                                option.value = city.namePrimaryLang; // Use nameSecondaryLang for cities
+                                option.textContent = city.namePrimaryLang; // Display cities in RTL
+                                citySelect.appendChild(option);
+
+                                // Check areaDataModels for additional cities
+                                if (city.areaDataModels) {
+                                    city.areaDataModels.forEach(area => {
+                                        if (area.namePrimaryLang !== city.namePrimaryLang) {
+                                            const areaOption = document.createElement("option");
+                                            areaOption.value = area.namePrimaryLang;
+                                            areaOption.textContent = area.namePrimaryLang;
+                                            citySelect.appendChild(areaOption);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        });
+    </script>
 }

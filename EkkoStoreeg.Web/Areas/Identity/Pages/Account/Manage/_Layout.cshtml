@@ -9,31 +9,55 @@
     }
 }
 <style>
-    .pro{
-       margin-top:80px;
-       margin-bottom:100px;
-    }
+        .pro {
+            margin-top: 80px;
+            margin-bottom: 100px;
+        }
 
-    .formgh {
-        background: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .formgh {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .formgh h2 {
-        margin-bottom: 20px;
-    }
+        .formgh h2 {
+            margin-bottom: 20px;
+        }
 
-    .form-floating {
-        margin-bottom: 15px;
-    }
+        .form-floating {
+            margin-bottom: 15px;
+        }
 
+        /* Style for input elements */
         .form-floating input {
             height: 45px;
             padding: 10px 15px;
             border-radius: 15px;
         }
+
+        /* Style for select dropdowns to look like inputs */
+        .form-floating select {
+            height: 45px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            appearance: none; /* Hide the default arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="none" stroke="black" stroke-width="1" d="M0 0l2 2 2-2"/></svg>'); /* Custom dropdown arrow */
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 10px;
+            width:100%;
+        }
+
+            .form-floating select:focus {
+                border-color: #717FE0;
+                outline: none;
+            }
 
     .btn-primary {
         background-color: #717FE0;
@@ -49,6 +73,7 @@
         }
 
 </style>
+
 <div class="container pro">
         <h4>Manage your account</h4>
         <hr />

@@ -63,34 +63,41 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
                 return Page();
             }
         }
-		public async Task<IActionResult> OnPostAsync()
-		{
-			bool isRTL = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft;
-			if (!ModelState.IsValid)
-			{
-				return Page();
-			}
-			var user = await _context.TbapplicationUser
-				.FirstOrDefaultAsync(x => x.Email == Input.EmailOrPhone || x.PhoneNumber == Input.EmailOrPhone);
-			if (user == null)
-			{
-				ModelState.AddModelError(string.Empty,"Can Not Find the User");
-			}
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
-			var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
-			if (result.Succeeded)
-			{
-				await _signInManager.SignInAsync(user, isPersistent: false);
-				return RedirectToPage("/Home/Index", new { area = "Customer" });
+            // Use UserManager to find the user by username or email
+            var user = await _userManager.FindByNameAsync(Input.EmailOrPhone);
 
-			}
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Cannot find the user");
+                return Page();
+            }
 
-			foreach (var error in result.Errors)
-			{
-				ModelState.AddModelError(string.Empty,"Faild to Reset Password");
-			}
-			return Page();
-		}
+            // Attempt to reset the password
+            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
 
-	}
+            if (result.Succeeded)
+            {
+                // Sign in the user after a successful password reset
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToPage("/Home/Index", new { area = "Customer" });
+            }
+
+            // If there are errors, display them
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return Page();
+        }
+
+
+    }
 }
