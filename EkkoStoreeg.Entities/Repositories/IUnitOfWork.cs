@@ -1,10 +1,4 @@
-﻿using EkkoSoreeg.Entities.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace EkkoSoreeg.Entities.Repositories
 {
     public interface IUnitOfWork : IDisposable
@@ -17,6 +11,8 @@ namespace EkkoSoreeg.Entities.Repositories
 		IApplicationUserRepository ApplicationUser { get; }
         IColorRepository Color { get; }
         ISizeRepository Size { get; }
+		IRegionRepository Region { get; }
+		ICityRepository City { get; }
 		int Complete();
     }
 }

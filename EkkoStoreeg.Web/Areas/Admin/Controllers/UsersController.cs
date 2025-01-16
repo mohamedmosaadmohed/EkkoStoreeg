@@ -26,7 +26,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
             string userId = claims.Value;
 
             // Get users except the current signed-in user
-            var users = _context.TbapplicationUser
+            var users = _context.TbApplicationUser
                 .Where(x => x.Id != userId)
                 .Select(user => new UserWithRolesViewModel
                 {
@@ -47,7 +47,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
 
         public IActionResult lockUnlock(string? Id)
         {
-            var user = _context.TbapplicationUser.FirstOrDefault(X => X.Id == Id);
+            var user = _context.TbApplicationUser.FirstOrDefault(X => X.Id == Id);
             if (user == null)
                 return NotFound();
             // To Close
@@ -65,10 +65,10 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
         }
         public IActionResult Delete(string Id)
         {
-            var user = _context.TbapplicationUser.FirstOrDefault(X => X.Id == Id);
+            var user = _context.TbApplicationUser.FirstOrDefault(X => X.Id == Id);
             if (user == null)
                 return NotFound();
-            _context.TbapplicationUser.Remove(user);
+            _context.TbApplicationUser.Remove(user);
             _context.SaveChanges();
             return RedirectToAction("Index", "Users", new { area = "Admin" });
         }

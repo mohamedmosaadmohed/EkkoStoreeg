@@ -14,9 +14,12 @@ namespace EkkoSoreeg.Entities.Models
         [MaxLength(450)]
         public string Name { get; set; }
         [MaxLength(450)]
+        [Required]
         public string Address { get; set; }
         [MaxLength(450)]
+        [Required]
         public string Region { get; set; }
+        [Required]
         public string City { get; set; }
         [Phone]
         public string? AdditionalPhoneNumber { get; set; }

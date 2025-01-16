@@ -4,6 +4,7 @@ using EkkoSoreeg.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EkkoStoreeg.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250115234424_EkkoStoreeg")]
+    partial class EkkoStoreeg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,29 +49,6 @@ namespace EkkoStoreeg.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TbCatagory");
-                });
-
-            modelBuilder.Entity("EkkoSoreeg.Entities.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("TbCity");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.OrderDetails", b =>
@@ -343,27 +323,6 @@ namespace EkkoStoreeg.DataAccess.Migrations
                     b.HasIndex("ProductSizeId");
 
                     b.ToTable("TbProductSizeMappings");
-                });
-
-            modelBuilder.Entity("EkkoSoreeg.Entities.Models.Region", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("ShippingCost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TbRegion");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.Review", b =>
@@ -664,17 +623,6 @@ namespace EkkoStoreeg.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.ToTable("TbUsers", (string)null);
-                });
-
-            modelBuilder.Entity("EkkoSoreeg.Entities.Models.City", b =>
-                {
-                    b.HasOne("EkkoSoreeg.Entities.Models.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Region");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.OrderDetails", b =>

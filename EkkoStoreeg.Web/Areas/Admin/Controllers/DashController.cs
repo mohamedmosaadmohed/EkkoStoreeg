@@ -26,7 +26,7 @@ namespace EkkoSoreeg.Web.Areas.Admin.Controllers
             var claims = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
             string userId = claims.Value;
 
-            var users = _context.TbapplicationUser.Where(x => x.Id != userId).ToList();
+            var users = _context.TbApplicationUser.Where(x => x.Id != userId).ToList();
             var orders = _unitOfWork.OrderHeader.GetAll();
 
             var usersCount = users.Count();

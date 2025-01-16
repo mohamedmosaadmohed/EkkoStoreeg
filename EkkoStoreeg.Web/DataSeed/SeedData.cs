@@ -29,15 +29,19 @@ namespace EkkoSoreeg.Web.DataSeed
             }
 
             // Ensure the default admin account exists
-            var adminUser = await userManager.FindByEmailAsync("admin@gmail.com");
+            var adminUser = await userManager.FindByEmailAsync("Ekkostoreeg@gmail.com");
             if (adminUser == null)
             {
                 adminUser = new ApplicationUser
                 {
-                    UserName = "admin@gmail.com",
-                    Email = "admin@gmail.com"
+                    Name = "Ekkostoreeg",
+                    UserName = "Ekkostoreeg@gmail.com",
+                    Email = "Ekkostoreeg@gmail.com",
+                    Address = "",
+                    Region = "",
+                    City= ""
                 };
-                await userManager.CreateAsync(adminUser, "admin#");
+                await userManager.CreateAsync(adminUser, "Ekkostoreeg");
                 await userManager.AddToRoleAsync(adminUser, SD.AdminRole);
 
                 // Generate email confirmation token and confirm email

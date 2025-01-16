@@ -133,7 +133,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                         ProductId = productVM.Product.Id,
                         ImagePath = imagePath
                     };
-                   await _context.ProductImages.AddAsync(productImage);
+                   await _context.TbProductImages.AddAsync(productImage);
                 }
 
                 // Add selected colors
@@ -144,7 +144,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                         ProductId = productVM.Product.Id,
                         ProductColorId = colorId
                     };
-                   await _context.ProductColorMappings.AddAsync(productColorMapping);
+                   await _context.TbProductColorMappings.AddAsync(productColorMapping);
                 }
                 // Add selected sizes
                 foreach (var sizeId in SelectedSizes)
@@ -154,7 +154,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                         ProductId = productVM.Product.Id,
                         ProductSizeId = sizeId
                     };
-                    await _context.ProductSizeMappings.AddAsync(productSizeMapping);
+                    await _context.TbProductSizeMappings.AddAsync(productSizeMapping);
                 }
                 _unitOfWork.Complete();
                 TempData["Create"] = "Product Has been Created Successfully";
@@ -168,12 +168,12 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
         {
             if (id == null | id == 0)
                 NotFound();
-            var selectedColors = _context.ProductColorMappings
+            var selectedColors = _context.TbProductColorMappings
                                   .Where(x => x.ProductId == id)
                                   .Select(x => x.ProductColorId)
                                   .ToList();
 
-            var selectedSizes = _context.ProductSizeMappings
+            var selectedSizes = _context.TbProductSizeMappings
                                         .Where(x => x.ProductId == id)
                                         .Select(x => x.ProductSizeId)
                                         .ToList();
@@ -195,7 +195,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                     Text = X.Name,
                     Value = X.Id.ToString()
                 }),
-                ImageList = _context.ProductImages.Where(X => X.ProductId == id).ToList(),
+                ImageList = _context.TbProductImages.Where(X => X.ProductId == id).ToList(),
                 SelectedColors = selectedColors,
                 SelectedSizes = selectedSizes
             };
@@ -212,7 +212,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                 if(files != null && files.Length > 0)
                 {
 					// Remove all existing images for the product
-					var existingImages = _context.ProductImages.Where(img => img.ProductId == productVM.Product.Id).ToList();
+					var existingImages = _context.TbProductImages.Where(img => img.ProductId == productVM.Product.Id).ToList();
 					foreach (var image in existingImages)
 					{
 						var imagePath = Path.Combine(rootPath, image.ImagePath.TrimStart('\\'));
@@ -221,7 +221,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
 							System.IO.File.Delete(imagePath);
 						}
 					}
-					_context.ProductImages.RemoveRange(existingImages);
+					_context.TbProductImages.RemoveRange(existingImages);
 					await _context.SaveChangesAsync();
 
 					// Upload new images
@@ -252,17 +252,17 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
 						        ProductId = productVM.Product.Id,
 						        ImagePath = $"Dashboard\\Images\\Products\\{productVM.Product.Id.ToString()}\\" + filename + extension
 					        };
-					        await _context.ProductImages.AddAsync(newImage);
+					        await _context.TbProductImages.AddAsync(newImage);
 				        }
 					}
 					await _context.SaveChangesAsync();
 				}
 				// Retrieve existing color mappings for the product
-				var existingColorMappings = _context.ProductColorMappings
+				var existingColorMappings = _context.TbProductColorMappings
                     .Where(pcm => pcm.ProductId == productVM.Product.Id)
                     .ToList();
                 // Retrieve existing Size mappings for the product
-                var existingSizeMappings = _context.ProductSizeMappings
+                var existingSizeMappings = _context.TbProductSizeMappings
                     .Where(pcm => pcm.ProductId == productVM.Product.Id)
                     .ToList();
 
@@ -275,8 +275,8 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                     .Where(pcm => !productVM.SelectedSizes.Contains(pcm.ProductSizeId))
                     .ToList();
 
-                _context.ProductColorMappings.RemoveRange(removedMappingsColor);
-                _context.ProductSizeMappings.RemoveRange(removedMappingsSize);
+                _context.TbProductColorMappings.RemoveRange(removedMappingsColor);
+                _context.TbProductSizeMappings.RemoveRange(removedMappingsSize);
 
                 // Add or update mappings based on the selected colors
                 foreach (var colorId in productVM.SelectedColors)
@@ -292,7 +292,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                             ProductId = productVM.Product.Id,
                             ProductColorId = colorId
                         };
-                        _context.ProductColorMappings.Add(newMapping);
+                        _context.TbProductColorMappings.Add(newMapping);
                     }
                     // If it exists, no need to update since it's already present
                 }
@@ -311,7 +311,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                             ProductId = productVM.Product.Id,
                             ProductSizeId = sizeId
                         };
-                        _context.ProductSizeMappings.Add(newMapping);
+                        _context.TbProductSizeMappings.Add(newMapping);
                     }
                     // If it exists, no need to update since it's already present
                 }
@@ -331,7 +331,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
             string rootPath = _webHostEnvironment.WebRootPath;
             if (file != null)
             {
-                var productImage = _context.ProductImages.Find(imageId);
+                var productImage = _context.TbProductImages.Find(imageId);
                 if (productImage != null)
                 {
                     string filename = Guid.NewGuid().ToString();
@@ -391,7 +391,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                         ProductId = productId,
                         ImagePath = $"Dashboard\\Images\\Products\\{productId}\\{filename}{extension}"
                     };
-                    _context.ProductImages.Add(productImage);
+                    _context.TbProductImages.Add(productImage);
                 }
             }
             _context.SaveChanges();
@@ -414,7 +414,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
             var productImagePath = Path.Combine(rootPath, $"Dashboard\\Images\\Products\\{Id}");
 
             // Delete all images associated with the product
-            var existingImages = _context.ProductImages.Where(img => img.ProductId == Id).ToList();
+            var existingImages = _context.TbProductImages.Where(img => img.ProductId == Id).ToList();
             foreach (var image in existingImages)
             {
                 var imagePath = Path.Combine(rootPath, image.ImagePath.TrimStart('\\'));
@@ -425,7 +425,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
             }
 
             // Remove image records from the database
-            _context.ProductImages.RemoveRange(existingImages);
+            _context.TbProductImages.RemoveRange(existingImages);
             await _context.SaveChangesAsync();
 
             // Delete all files in the product's directory
@@ -444,7 +444,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteImage(int ? imageId,int productId)
         {
-            var productImage = await _context.ProductImages.FindAsync(imageId);
+            var productImage = await _context.TbProductImages.FindAsync(imageId);
             if (productImage == null)
                 return Json(new { success = false, message = "Error While Deleting" });
             string rootPath = _webHostEnvironment.WebRootPath;
@@ -459,7 +459,7 @@ namespace EkkoSoreeg.Areas.Admin.Controllers
                     System.IO.File.Delete(ImagePath);
                 }
             }
-            _context.ProductImages.Remove(productImage);
+            _context.TbProductImages.Remove(productImage);
             await _context.SaveChangesAsync();
             return Json(new { success = true, message = "Product Has been Deleted Successfully" });
         }

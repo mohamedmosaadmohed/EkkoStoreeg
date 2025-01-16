@@ -1,4 +1,5 @@
-﻿using EkkoSoreeg.DataAccess.Data;
+﻿using EEkkoSoreeg.DataAccess.Implementation;
+using EkkoSoreeg.DataAccess.Data;
 using EkkoSoreeg.Entities.Repositories;
 
 namespace EkkoSoreeg.DataAccess.Implementation
@@ -15,6 +16,8 @@ namespace EkkoSoreeg.DataAccess.Implementation
 		public IApplicationUserRepository ApplicationUser { get; private set; }
 		public IColorRepository Color { get; private set; }
 		public ISizeRepository Size { get; private set; }
+		public IRegionRepository Region { get; private set; }
+		public ICityRepository City { get; private set; }
 
 		public UnitOfWork(ApplicationDbContext context)
 		{
@@ -27,6 +30,8 @@ namespace EkkoSoreeg.DataAccess.Implementation
 			ApplicationUser = new ApplicationUserRepository(context);
 			Color = new ColorRepository(context);
 			Size = new SizeRepository(context);
+			Region = new RegionRepository(context);
+			City = new CityRepository(context);
 		}
 		public int Complete()
 		{

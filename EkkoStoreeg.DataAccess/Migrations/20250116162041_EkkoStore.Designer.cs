@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EkkoStoreeg.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240916143437_server")]
-    partial class server
+    [Migration("20250116162041_EkkoStore")]
+    partial class EkkoStore
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,29 @@ namespace EkkoStoreeg.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TbCatagory");
+                });
+
+            modelBuilder.Entity("EkkoSoreeg.Entities.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("TbCity");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.OrderDetails", b =>
@@ -260,7 +283,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductColorMappings");
+                    b.ToTable("TbProductColorMappings");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.ProductImage", b =>
@@ -282,7 +305,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("TbProductImages");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.ProductSize", b =>
@@ -322,7 +345,28 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("ProductSizeId");
 
-                    b.ToTable("ProductSizeMappings");
+                    b.ToTable("TbProductSizeMappings");
+                });
+
+            modelBuilder.Entity("EkkoSoreeg.Entities.Models.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("ShippingCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TbRegion");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.Review", b =>
@@ -355,7 +399,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("reviews");
+                    b.ToTable("Tbreviews");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.ShoppingCart", b =>
@@ -420,7 +464,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("TbRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -445,7 +489,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("TbRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -459,11 +503,6 @@ namespace EkkoStoreeg.DataAccess.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -517,9 +556,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -544,7 +581,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("TbUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -566,7 +603,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("TbUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -581,7 +618,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("TbUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -600,7 +637,7 @@ namespace EkkoStoreeg.DataAccess.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("TbUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.ApplicationUser", b =>
@@ -629,7 +666,18 @@ namespace EkkoStoreeg.DataAccess.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasDiscriminator().HasValue("ApplicationUser");
+                    b.ToTable("TbUsers", (string)null);
+                });
+
+            modelBuilder.Entity("EkkoSoreeg.Entities.Models.City", b =>
+                {
+                    b.HasOne("EkkoSoreeg.Entities.Models.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Region");
                 });
 
             modelBuilder.Entity("EkkoSoreeg.Entities.Models.OrderDetails", b =>
@@ -803,6 +851,15 @@ namespace EkkoStoreeg.DataAccess.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EkkoSoreeg.Entities.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("EkkoSoreeg.Entities.Models.ApplicationUser", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

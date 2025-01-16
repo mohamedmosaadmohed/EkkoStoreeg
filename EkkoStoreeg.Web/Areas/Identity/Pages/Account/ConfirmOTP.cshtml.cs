@@ -79,7 +79,7 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
                 return Page();
             }
             var isPhone = Regex.IsMatch(Input.EmailOrPhone, @"^(?:\+20|0)?1[0125]\d{8}$");
-            var user = await _context.TbapplicationUser
+            var user = await _context.TbApplicationUser
                 .FirstOrDefaultAsync(x =>
                     (!isPhone && x.UserName == Input.EmailOrPhone) ||
                     (isPhone && x.UserName == Input.EmailOrPhone));
@@ -141,7 +141,7 @@ namespace EkkoSoreeg.Web.Areas.Identity.Pages.Account
             {
                 var isPhone = Regex.IsMatch(emailOrPhone, @"^(?:\+20|0)?1[0125]\d{8}$");
 
-                var user = await _context.TbapplicationUser
+                var user = await _context.TbApplicationUser
                     .FirstOrDefaultAsync(x =>
                         (!isPhone && x.Email == emailOrPhone) ||
                         (isPhone && x.PhoneNumber == emailOrPhone));

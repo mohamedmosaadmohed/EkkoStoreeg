@@ -30,8 +30,12 @@ namespace EkkoSoreeg.Areas.Customer.Controllers
 		{
 			var pageNumber = page ?? 1;
 			int pageSize = 6;
-			var product = _unitOfWork.Product.GetFirstorDefault(X => X.Id == Id, IncludeWord: "TbCatagory,ProductColorMappings.ProductColor,ProductSizeMappings.ProductSize,ProductImages");
-			var relatedProducts = _unitOfWork.Product.GetAll(x => x.TbCatagory.Name == product.TbCatagory.Name && x.Id != Id, IncludeWord: "ProductColorMappings.ProductColor,ProductSizeMappings.ProductSize,ProductImages").ToPagedList(pageNumber, pageSize); ;
+			var product = _unitOfWork.Product.GetFirstorDefault(X => X.Id == Id, IncludeWord:
+				"TbCatagory,ProductColorMappings.ProductColor,ProductSizeMappings.ProductSize,ProductImages");
+			var relatedProducts = _unitOfWork.Product.GetAll
+				(x => x.TbCatagory.Name == product.TbCatagory.Name && x.Id != Id,
+				IncludeWord: "ProductColorMappings.ProductColor," +
+				"ProductSizeMappings.ProductSize,ProductImages").ToPagedList(pageNumber, pageSize);
 			ShoppingCart obj = new ShoppingCart()
 			{
 				ProductId = Id,
